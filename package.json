@@ -1,6 +1,6 @@
 {
-  "name": "elliot-client",
-  "version": "0.1.0",
+  "name": "ipcamera-viewer",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "kurento-utils": "^6.7.0",
