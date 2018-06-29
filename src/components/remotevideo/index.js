@@ -6,7 +6,7 @@ class RemoteVideo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            ws : new WebSocket('wss://18.232.60.204:8080/one2many'), 
+            ws : new WebSocket('ws://18.232.60.204:8080/one2many'), 
             webRtcPeer : null,
             videoId : props.videoId,
         }
