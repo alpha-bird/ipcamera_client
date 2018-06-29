@@ -6,7 +6,7 @@ class RemoteVideo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            ws : new WebSocket('wss://18.232.60.204:8080/one2many'), 
+            ws : new WebSocket('ws://18.232.60.204:8080/one2many'), 
             webRtcPeer : null,
             videoId : props.videoId,
         }
@@ -111,9 +111,9 @@ class RemoteVideo extends Component {
                 onicecandidate : (candidate) => {this.onIceCandidate(candidate, this)}
             }
             var _this = this
+            
             var peer = kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function(error) {
                 if(error) return console.log(error)
-    
                 this.generateOffer((err, offerSdp) => {_this.onOfferViewer(err, offerSdp, _this)});
             });
             this.setState({
