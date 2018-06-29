@@ -73,7 +73,7 @@ class RemoteVideo extends Component {
                 webRtcPeer : null
             })
         }
-    //	hideSpinner(video);
+    	this.hideSpinner(document.getElementById(this.state.videoId));
     }
     
     onIceCandidate(candidate, _this) {
@@ -104,7 +104,7 @@ class RemoteVideo extends Component {
 
     viewer() {
         if (!this.state.webRtcPeer) {
-            //showSpinner(video);
+            this.showSpinner(document.getElementById(this.state.videoId));
 
             var options = {
                 remoteVideo: document.getElementById(this.state.videoId),
@@ -122,6 +122,20 @@ class RemoteVideo extends Component {
         }
     }
     
+    showSpinner() {
+        for (var i = 0; i < arguments.length; i++) {
+            arguments[i].poster = './img/transparent-1px.png';
+            arguments[i].style.background = 'center transparent url("./img/spinner.gif") no-repeat';
+        }
+    }
+    
+    hideSpinner() {
+        for (var i = 0; i < arguments.length; i++) {
+            arguments[i].src = '';
+            arguments[i].poster = './img/webrtc.png';
+            arguments[i].style.background = '';
+        }
+    }
 
     render() {
         return (
