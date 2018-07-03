@@ -4,16 +4,17 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            streamName : this.props.location.query.streamName ? this.props.location.query.streamName : ''
+        }
+    }
     render() {
         return (
             <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h1 className="App-title">Welcome to Well Checked</h1>
-                </header>
                 <div style = {{ flexDirection : "row", display : "flex" }}>
-                    <RemoteVideo videoId = "video1"/>
-                    <RemoteVideo videoId = "video2"/>
+                    <RemoteVideo videoId = "video1" streamName={ this.state.streamName }/>
                 </div>
             </div>
         );

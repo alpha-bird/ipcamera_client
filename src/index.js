@@ -13,7 +13,9 @@ const history = syncHistoryWithStore(browserHistory, store)
 ReactDOM.render(
 	<Provider store = { store }>
 		<Router history={ history }>
-			<Route path='/' component = { app } >
+			<Route path='/' component = { app } />
+			<Route path='/embed_player' component = { app }>
+				<Route path=':redirectParam' component = { app } />
 			</Route>
 		</Router>
 	</Provider>, document.getElementById('root'));

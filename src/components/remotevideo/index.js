@@ -5,26 +5,42 @@ import './styles.css';
 class RemoteVideo extends Component {
     constructor(props) {
         super(props)
+        
         this.state = {
-            ws : new WebSocket('ws://18.232.60.204:8080/one2many'), 
+            ws : new WebSocket('ws://18.232.60.204:8080/many2many'), 
             webRtcPeer : null,
             videoId : props.videoId,
+            streamName : props.streamName
         }
     }
+
+    //18.232.60.204
+    //54.196.144.251
 
     componentDidMount() {
         var webSocket = this.state.ws
         var _this = this
         webSocket.onopen = function() {
-            _this.viewer()
+            //_this.viewer()
+            
+            var message = {
+                id : 'initialize',
+                streamName : _this.state.streamName
+            }
+            _this.sendMessage(message)
         }
         webSocket.onmessage = function(message) {
             var parsedMessage = JSON.parse(message.data);
             console.info('Received message: ' + message.data);
         
             switch (parsedMessage.id) {
-            case 'presenterResponse':
-                _this.presenterResponse(parsedMessage);
+            case 'initializeResponse':
+                if(parsedMessage.response === 'not ready'){
+                    console.log('Initialize failed!!')
+                }
+                else {
+                    _this.viewer()
+                }
                 break;
             case 'viewerResponse':
                 _this.viewerResponse(parsedMessage);
@@ -73,7 +89,7 @@ class RemoteVideo extends Component {
                 webRtcPeer : null
             })
         }
-    	this.hideSpinner(document.getElementById(this.state.videoId));
+    	//this.hideSpinner(document.getElementById(this.state.videoId));
     }
     
     onIceCandidate(candidate, _this) {
@@ -91,7 +107,8 @@ class RemoteVideo extends Component {
     
         var message = {
             id : 'viewer',
-            sdpOffer : offerSdp
+            sdpOffer : offerSdp,
+            streamName : _this.state.streamName
         }
         _this.sendMessage(message)
     }
@@ -104,7 +121,7 @@ class RemoteVideo extends Component {
 
     viewer() {
         if (!this.state.webRtcPeer) {
-            this.showSpinner(document.getElementById(this.state.videoId));
+            //this.showSpinner(document.getElementById(this.state.videoId));
 
             var options = {
                 remoteVideo: document.getElementById(this.state.videoId),
@@ -139,7 +156,7 @@ class RemoteVideo extends Component {
 
     render() {
         return (
-            <video id={ this.state.videoId } autoPlay width="640px" height="480px" poster="img/webrtc.png"></video>
+            <video id={ this.state.videoId } autoPlay width="100%" height="100%" controls></video>
         );
     }
 }
