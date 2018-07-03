@@ -7,7 +7,7 @@ class RemoteVideo extends Component {
         super(props)
         
         this.state = {
-            ws : new WebSocket('wss://18.232.60.204:8080/many2many'), 
+            ws : new WebSocket('ws://18.232.60.204:8080/many2many'), 
             webRtcPeer : null,
             videoId : props.videoId,
             streamName : props.streamName
@@ -156,7 +156,7 @@ class RemoteVideo extends Component {
 
     render() {
         return (
-            <video id={ this.state.videoId } autoPlay width="100%" height="100%" controls></video>
+            <video id={ this.state.videoId } autoPlay playsInline width="100%" height="100%" controls></video>
         );
     }
 }
