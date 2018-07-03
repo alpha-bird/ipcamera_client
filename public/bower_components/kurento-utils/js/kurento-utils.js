@@ -266,6 +266,19 @@ function WebRtcPeer(mode, options, callback) {
             };
         var constraints = browserDependantConstraints;
         logger.debug('constraints: ' + JSON.stringify(constraints));
+        
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+        if (isSafari) {
+            if (constraints.offerToReceiveAudio) {
+                pc.addTransceiver('audio');
+            }
+
+            if (constraints.offerToReceiveVideo) {
+                pc.addTransceiver('video');
+            }
+        }
+
         pc.createOffer(constraints).then(function (offer) {
             logger.debug('Created SDP offer');
             offer = mangleSdpToAddSimulcast(offer);
